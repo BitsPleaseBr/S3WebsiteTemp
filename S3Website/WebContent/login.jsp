@@ -29,11 +29,5 @@
   <script>
 	$(document).ready(function(){
 		$('.content').load('includes/pages/login.jsp');
-		
-		var request = window.location.search.replace("?","");
-
-		if(request == "400"){
-			S3.showSwal("logininvalid");
-		}
 	});
   </script>

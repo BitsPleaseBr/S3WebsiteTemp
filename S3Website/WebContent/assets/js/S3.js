@@ -526,7 +526,7 @@
 					  	  swal({
 							  title:"Da uma olhada no seu e-mail!", 
 							  text: "Enviamos um e-mail de boas vindas com o link de confirmação para você! ;)", 
-							  type: "succes", 
+							  type: "success", 
 							  buttonsStyling: false, 
 							  confirmButtonClass: "btn btn-success"
 						  });
@@ -552,6 +552,13 @@
 			    		  type: 'error',
 			    		  position: 'center',
 			    		});
+				  }else if(type ==  'errorsubmit'){
+					  	toast({
+				    		  title: 'Deu algum problema aqui em pegar seus dados, tente novamente por favor',
+				    		  type: 'error',
+				    		  position: 'top-end',
+				    		  timer: 3000
+					  	});
 				  }
 			  }
     }
@@ -605,53 +612,60 @@
 		return this.optional(element) || /^\(\d{2}\) \d{4}\-\d{4}?$/.test(value);
 	}, "Digite um telefone válido");
    
+   var emailValido = "";
+   var ajaxEmailValido = false;
+   
 	//Metódo para verificar se o Email já existe no banco
     $.validator.addMethod("emailBanco", function(value, element) {
     	
+    	if (ajaxEmailValido) {
+    		ajaxEmailValido = false;
+		return emailValido == "true";
+    	}
+    	
     	var resultado = false;
     	var dados = "&email=" + value;
-    	
-    	$.ajaxSetup({async: false});
     	
     	$.ajax({
     		type: "POST",
     		url: "acoes/verificarEmail.jsp",
     		data: dados,
     		success: function(data) {
-    			if (data.trim() == "true") {
-    				resultado = true;
-    			}
+    			
+    			ajaxEmailUsado = true;
+    			emailValido = data.trim();
+    			$("input[name='email']").valid();
     		}
     	});
-    	
-    	$.ajaxSetup({async: true});
     	
     	return resultado;
     });
     
+    var cpfValido = "";
+    var ajaxCpfUsado = false;
+    
     //Função para verificar se o CPF já existe no banco
     $.validator.addMethod("cpfBanco", function(value, element) {
     	
-    	var resultado = false;
+    	if (ajaxCpfUsado) {
+    		ajaxCpfUsado = false;
+    		return cpfValido == "true";
+    	}
+    
+    	var resultado = true;
     	var dados = "&cpf=" + value;
-
-    	$.ajaxSetup({async: false});
     	
     	$.ajax({
     		type: "POST",
     		url: "acoes/verificarCPF.jsp",
     		data: dados,
     		success: function(data) {
-
-    			if (data.trim() == "true") {
-    				resultado = true;
-    				
-    			}
+    			
+    			ajaxCpfUsado = true;
+    			cpfValido = data.trim();
+    			$("input[name='cpf']").valid();
     		}
-    		
     	});
-    	
-    	$.ajaxSetup({async: true});
     	
     	return resultado;
     });

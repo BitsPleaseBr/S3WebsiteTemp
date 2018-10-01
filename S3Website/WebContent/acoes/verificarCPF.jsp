@@ -5,7 +5,6 @@
 	try {
 		out.print(MethodCallerFactory.verificarCpf(cpf).call().getResponse().getHttpResponse().getStatusCode() == 200);
 	} catch (Exception e) {
-	  	e.printStackTrace();
 		out.print("false");
 	}
 %>

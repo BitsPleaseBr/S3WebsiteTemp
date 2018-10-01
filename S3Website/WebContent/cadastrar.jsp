@@ -19,9 +19,59 @@
 	  <div class="content">
 	  
       </div>
-      
-	  <%@include file="includes/lead/confirmacao.jsp" %>
+
+      <div class="modal fade modal-primary" id="ConfirmModal" tabindex="-1" role="dialog" aria-hidden="true">
+	    <div class="modal-dialog modal-login">
+	      <div class="modal-content">
+	        <div class="card card-login card-plain">
+	          <div class="modal-header justify-content-center">
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">√ó</span>
+	            </button>
 	  
+	            <div class="header header-primary text-center">
+	              <div class="logo-container">
+	                  <img src="assets/img/brand.png" alt="S2 sa√∫de" style="width: 20%;border-radius:0%">
+	              </div>
+	            </div>
+	          </div>
+	          <div class="modal-body">
+	            <form class="formConfirma√ß√£oPaciente" novalidate="novalidate">
+	              <div class="card-body">
+	  				<h5 style="text-size: 50%; text-align: center">Por favor, confirme seus dados para podermos progredir! <span><i class="nc-icon nc-satisfed"></i></span></h5>
+	                <div class="input-group">
+	                  <div class="input-group-prepend">
+	                    <span class="input-group-text"><i class="nc-icon nc-email-85"></i></span>
+	                  </div>
+	                  <input type="email" name="email" class="form-control" autocomplete="off" placeholder="Email...">
+	                </div>
+	  
+	                <div class="input-group">
+	                  <div class="input-group-prepend">
+	                    <span class="input-group-text"><i class="nc-icon nc-key-25"></i></span>
+	                  </div>
+	                  <input type="password" name="senha" class="form-control" autocomplete="off" placeholder="Senha...">
+	                </div>
+	              </div>
+	  
+                  <div class="form-check text-left">
+                    <label class="form-check-label">
+                      <input type="checkbox" name="termos" class="form-check-input" value="">
+                      <span class="form-check-sign"></span>
+                      Eu concordo com os
+                      <a href="#modalcompdf">termos e condi√ß√µes de uso</a>.
+                    </label>
+                  </div>
+	            </form>
+	          </div>
+	          <div class="modal-footers text-center">
+	            <button type="button" class="btn btn-primary btn-round" id="btn_confirmar">Vamos come√ßar!</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+
       <%@include file="includes/lead/esqueci.jsp" %>
 
 	<%@include file="includes/footer.jsp" %>
@@ -38,8 +88,8 @@
 		  
 	  });
   
-	//Regras de validaÁ„o do form de ConfirmaÁ„o de Cadastro do Paciente
-	var formConfPac = $('.formConfirmaÁ„oPaciente');
+	//Regras de valida√ß√£o do form de Confirma√ß√£o de Cadastro do Paciente
+	var formConfPac = $('.formConfirma√ß√£oPaciente');
 	formConfPac.validate({
 		  rules: {
 			  email: {
@@ -57,11 +107,11 @@
 			  email: {
 				  required: "Temos que ter certeza se nenhum engano foi cometido entende?",
 		      	  email: "Lembrando que seu e-mail precisa ser parecido com esse: david@dominio.com",
-				  equalTo: "Lembrando que tem que ser o mesmo e-mail que vocÍ colocou anteriormente"
+				  equalTo: "Lembrando que tem que ser o mesmo e-mail que voc√™ colocou anteriormente"
 			  },
 			  senha: {
-				  required: "Temos que certificar que n„o aconteceu nenhum engano anteriormente",
-				  equalTo: "Da uma olhada l· atr·s, por que parece que as senhas informadas n„o s„o as mesmas :c"
+				  required: "Temos que certificar que n√£o aconteceu nenhum engano anteriormente",
+				  equalTo: "Da uma olhada l√° atr√°s, por que parece que as senhas informadas n√£o s√£o as mesmas :c"
 			  }
 		  }
 	});
@@ -71,8 +121,17 @@
 			if (($("input[name='termos']:checked").length)<=0) {
 				S3.showSwal("readterms");
 			}else{
-				formCadPac.submit();
-				S3.showSwal("sendedemail");
+				$.ajax({   
+					   type: 'POST',   
+					   url: 'acoes/cadastrarPaciente.jsp',   
+					   data: formConfPac.serialize(),
+					   success: function(){
+							S3.showSwal("sendedemail");
+					   },
+					   error: function(){
+							S3.showToast("errorsubmit");
+					   }
+				}); 
 			};
 		  };
 	});

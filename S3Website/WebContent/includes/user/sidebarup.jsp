@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <script src="assets/js/core/jquery.min.js"></script>
-<script src="assets/js/plugins/jquery.cookie.js"></script>
   <div class="wrapper" style="display:none">
     <div class="sidebar" data-active-color="blue">
 
@@ -50,4 +48,6 @@
           </div>
         </div>
         
-        <script>$('.name').text($.cookie("name"));</script>
+		<script src="assets/js/core/jquery.min.js"></script>
+		<script src="assets/js/plugins/jquery.cookie.js"></script>
+    <script>$('.name').text($.cookie("nome"));</script>

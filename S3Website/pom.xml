@@ -29,6 +29,14 @@
   </build>
   
   <dependencies>
+  
+  		<!-- https://pt.stackoverflow.com/questions/94987/como-resolver-o-erro-the-superclass-javax-servlet-http-httpservlet-was-not-f -->
+		<dependency>
+		  <groupId>javax.servlet</groupId>
+		  <artifactId>javax.servlet-api</artifactId>
+		  <version>3.1.0</version>
+		  <scope>provided</scope>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>

@@ -12,6 +12,7 @@
 		response.sendRedirect("cookies.jsp?t=" + token);
 		
 	}catch(Exception e){
-		response.sendRedirect("cookies.jsp?400");
+
+		out.print("não foi");
 	}
 %>

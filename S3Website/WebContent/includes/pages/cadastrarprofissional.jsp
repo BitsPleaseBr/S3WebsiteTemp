@@ -543,8 +543,17 @@
         			S3.showSwal("readterms");
         		}else{
         			if($(".tagsinput").val() != "Aqui aparecerá as que você escolher, caso erre pode excluir sem problemas xD"){
-          		  		$('.formCadastroProfissional').submit();
-          	  	  		S3.showSwal("sendedemail");
+        				$.ajax({   
+     					   type: 'POST',
+     					   url: 'acoes/cadastrarProfissional.jsp',
+     					   data: $('.formCadastroProfissional').serialize(),
+     					   success: function(){
+     							S3.showSwal("sendedemail");
+     					   },
+     					   error: function(){
+     							S3.showToast("errorsubmit");
+     					   }
+     					});
         			}else{
         				S3.showToast("informespe");
         			}
